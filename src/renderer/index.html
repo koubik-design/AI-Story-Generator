@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Video Story Generator</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>🎬 AI Video Story Generator</h1>
+      <p class="subtitle">Create Instagram Reels with AI narration & gameplay</p>
+    </header>
+
+    <main class="main-content">
+      <!-- Input Panel -->
+      <section class="panel input-panel">
+        <h2>📝 Story Input</h2>
+        
+        <div class="form-group">
+          <label for="story-text">Story Text:</label>
+          <textarea
+            id="story-text"
+            class="story-textarea"
+            placeholder="Enter your story here... The AI will convert it to narration."
+            rows="6"
+          ></textarea>
+          <small>Max 1000 characters for best results</small>
+        </div>
+
+        <div class="form-group">
+          <label for="gameplay-file">📹 Gameplay Video:</label>
+          <div class="file-input-wrapper">
+            <input type="file" id="gameplay-file" accept="video/mp4" style="display: none;" />
+            <button id="select-gameplay-btn" class="btn btn-secondary">
+              Choose Gameplay Clip (.mp4)
+            </button>
+            <span id="gameplay-filename" class="filename">No file selected</span>
+          </div>
+          <small>Min 9:16 aspect ratio, recommended pre-recorded gameplay</small>
+        </div>
+
+        <div class="form-group">
+          <label for="tts-voice">🎙️ Narration Voice:</label>
+          <select id="tts-voice" class="select-input">
+            <option value="default">Default (English)</option>
+            <option value="female">Female</option>
+            <option value="male">Male</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>
+            <input type="checkbox" id="add-captions" checked />
+            Add Text Captions
+          </label>
+        </div>
+      </section>
+
+      <!-- Output Panel -->
+      <section class="panel output-panel">
+        <h2>🎞️ Video Preview & Settings</h2>
+
+        <div class="preview-section">
+          <div class="preview-placeholder">
+            <p>Video preview will appear here</p>
+            <small id="preview-info">Select a gameplay clip to see preview</small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="output-filename">Output Filename:</label>
+          <input
+            type="text"
+            id="output-filename"
+            class="text-input"
+            placeholder="my-story-video.mp4"
+            value="story-video.mp4"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="video-duration">Video Duration (seconds):</label>
+          <div class="duration-info">
+            <input
+              type="number"
+              id="video-duration"
+              class="text-input"
+              placeholder="60"
+              value="60"
+              min="15"
+              max="90"
+            />
+            <small>Instagram Reels: 15-90 seconds</small>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button id="generate-btn" class="btn btn-primary">
+            ✨ Generate Video
+          </button>
+          <button id="export-btn" class="btn btn-success" disabled>
+            💾 Export to Output Folder
+          </button>
+        </div>
+
+        <div id="progress-container" class="progress-container" style="display: none;">
+          <div class="progress-info">
+            <span id="progress-text">Generating...</span>
+            <span id="progress-percent">0%</span>
+          </div>
+          <div class="progress-bar">
+            <div id="progress-fill" class="progress-fill"></div>
+          </div>
+        </div>
+
+        <div id="error-message" class="error-message" style="display: none;"></div>
+        <div id="success-message" class="success-message" style="display: none;"></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

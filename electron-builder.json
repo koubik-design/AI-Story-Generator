@@ -1,0 +1,39 @@
+{
+  "name": "AI Video Story Gen",
+  "version": "0.1.0",
+  "description": "AI-powered video story generator with TTS and gameplay overlay for Instagram Reels",
+  "author": "AI Video Story Gen",
+  "license": "MIT",
+  "appId": "com.aivideostorygen.app",
+  "productName": "AI Video Story Gen",
+  "directories": {
+    "buildResources": "assets"
+  },
+  "files": [
+    "src/**/*",
+    "node_modules/**/*",
+    "package.json"
+  ],
+  "win": {
+    "target": [
+      "nsis",
+      "portable"
+    ]
+  },
+  "nsis": {
+    "oneClick": false,
+    "allowToChangeInstallationDirectory": true
+  },
+  "mac": {
+    "target": [
+      "dmg",
+      "zip"
+    ]
+  },
+  "linux": {
+    "target": [
+      "AppImage",
+      "deb"
+    ]
+  }
+}
