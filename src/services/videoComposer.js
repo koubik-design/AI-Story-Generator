@@ -129,15 +129,27 @@ async function composeVideo(config) {
         }
 
         // Escape text for ffmpeg drawtext
-        const escapedText = (storyText || '').replace(/:/g, '\\:').replace(/'/g, "\\'").replace(/\\n/g, '\\n');
+        const escapedText = (storyText || '')
+          .replace(/\\/g, '\\\\')          .replace(/%/g, '%%')          .replace(/:/g, '\\:')
+          .replace(/'/g, "\\'")
+          .replace(/\n/g, '\\n');
 
-        let drawtext = `drawtext=text='${escapedText}':fontcolor=white:fontsize=48:box=1:boxcolor=black@0.6:boxborderw=10:x=(w-text_w)/2:y=h-(text_h)-80`;
+        const filterOptions = {
+          text: escapedText,
+          fontcolor: 'white',
+          fontsize: 48,
+          box: 1,
+          boxcolor: 'black@0.6',
+          boxborderw: 10,
+          x: '(w-text_w)/2',
+          y: 'h-(text_h)-80',
+        };
+
         if (fontfile) {
-          drawtext = `drawtext=fontfile='${fontfile}':` + drawtext.replace(/^drawtext:/, '');
+          filterOptions.fontfile = fontfile;
         }
 
-        // Apply video filter
-        cmd = cmd.videoFilters(drawtext);
+        cmd = cmd.videoFilters([{ filter: 'drawtext', options: filterOptions }]);
       }
 
       cmd.on('start', (command) => {

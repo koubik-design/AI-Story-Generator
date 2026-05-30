@@ -43,6 +43,7 @@ app.on('activate', () => {
 // IPC Handlers
 const ttsService = require('../services/tts');
 const videoComposer = require('../services/videoComposer');
+const huggingface = require('../services/huggingface');
 
 ipcMain.handle('generate-tts', async (event, text) => {
   try {
@@ -53,10 +54,46 @@ ipcMain.handle('generate-tts', async (event, text) => {
   }
 });
 
+ipcMain.handle('generate-story', async (event, prompt) => {
+  try {
+    const storyText = await huggingface.generateStory(prompt);
+    return { success: true, storyText };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+});
+
 ipcMain.handle('compose-video', async (event, config) => {
   try {
     const videoPath = await videoComposer.composeVideo(config);
     return { success: true, videoPath };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+});
+
+ipcMain.handle('sync-bucket', async (event, sourceUri, destinationPath) => {
+  try {
+    const result = await huggingface.syncBucket(sourceUri, destinationPath);
+    return { success: true, output: result };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+});
+
+ipcMain.handle('upload-bucket', async (event, localPath, bucketUri) => {
+  try {
+    const result = await huggingface.uploadFolderToBucket(localPath, bucketUri);
+    return { success: true, output: result };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+});
+
+ipcMain.handle('download-bucket', async (event, bucketUri, localPath) => {
+  try {
+    const result = await huggingface.downloadBucketToLocal(bucketUri, localPath);
+    return { success: true, output: result };
   } catch (error) {
     return { success: false, error: error.message };
   }

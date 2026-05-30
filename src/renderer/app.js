@@ -1,5 +1,7 @@
 // DOM Elements
 const storyTextArea = document.getElementById('story-text');
+const storyPromptInput = document.getElementById('story-prompt');
+const generateStoryBtn = document.getElementById('generate-story-btn');
 const gameplayFileInput = document.getElementById('gameplay-file');
 const selectGameplayBtn = document.getElementById('select-gameplay-btn');
 const gameplayFilename = document.getElementById('gameplay-filename');
@@ -35,6 +37,39 @@ selectGameplayBtn.addEventListener('click', async () => {
     gameplayFilename.textContent = selectedGameplayPath.split('/').pop();
     previewInfo.textContent = 'Gameplay selected. Ready to generate!';
     showMessage('', 'success');
+  }
+});
+
+// Generate Story with QWEN-3
+generateStoryBtn.addEventListener('click', async () => {
+  if (!storyPromptInput.value.trim()) {
+    showMessage('Enter an AI prompt to generate the story.', 'error');
+    return;
+  }
+
+  generateStoryBtn.disabled = true;
+  progressContainer.style.display = 'block';
+  updateProgress('Generating story with QWEN-3...', 0);
+  showMessage('', 'success');
+
+  try {
+    const result = await window.electron.generateStory(storyPromptInput.value);
+    if (!result.success) {
+      throw new Error(result.error);
+    }
+
+    storyTextArea.value = result.storyText;
+    showMessage('Story generated with QWEN-3. You can now generate the video.', 'success');
+    updateProgress('Story generated successfully.', 100);
+  } catch (error) {
+    showMessage(`Error: ${error.message}`, 'error');
+    console.error('Story generation error:', error);
+  } finally {
+    generateStoryBtn.disabled = false;
+    setTimeout(() => {
+      progressContainer.style.display = 'none';
+      updateProgress('0%', 0);
+    }, 1000);
   }
 });
 

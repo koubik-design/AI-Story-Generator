@@ -30,6 +30,19 @@
         </div>
 
         <div class="form-group">
+          <label for="story-prompt">AI Story Prompt (QWEN-3):</label>
+          <input
+            id="story-prompt"
+            class="text-input"
+            type="text"
+            placeholder="Write an Instagram Reel story about subway parkour..."
+          />
+          <button id="generate-story-btn" class="btn btn-secondary" type="button">
+            Generate Story with QWEN-3
+          </button>
+        </div>
+
+        <div class="form-group">
           <label for="gameplay-file">📹 Gameplay Video:</label>
           <div class="file-input-wrapper">
             <input type="file" id="gameplay-file" accept="video/mp4" style="display: none;" />
